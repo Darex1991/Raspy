@@ -17,6 +17,6 @@ if (!fs.existsSync(filePath)) {
   const database = require('lowdb')(new FileSync(filePath));
 
   bcrypt.hash('secret', 10, function(err, hash) {
-    database.defaults({ users: [{ username: 'admin', password: hash }] }).write();
+    database.defaults({ users: [{ id: 1, username: 'admin', password: hash, type: 'admin' }, { id: 2, username: 'janusz', password: hash, type: 'user' }] }).write();
   });
 }
