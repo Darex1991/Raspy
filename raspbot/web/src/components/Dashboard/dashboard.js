@@ -32,6 +32,7 @@ exports.methods = {
    */
   update: function () {
     this.$APIManager.getSystemInformation(response => {
+      console.log('dashboard.js', response)
       if (response.success) {
         this.ram = response.result.ram;
         this.cpu = response.result.cpu;
@@ -46,8 +47,8 @@ exports.methods = {
     });
 
     this.$APIManager.getTempInformation(response => {
+      console.log(response, 'resp')
       if (response.success) {
-        debugger;
         // this.ram = response.result.ram;
         // this.cpu = response.result.cpu;
         // this.disk = response.result.disk;
