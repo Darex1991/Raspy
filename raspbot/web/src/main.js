@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
 import App from './App';
+import _ from 'lodash';
 import router from './router';
 import VueCookie from 'vue-cookie';
 import shared from '@/shared/index.js';
@@ -15,6 +16,7 @@ Vue.config.productionTip = false;
 
 Vue.use(shared);
 Vue.use(VueCookie);
+Vue.use(_);
 Vue.use(Keyring, VueCookie);
 Vue.use(Application);
 Vue.use(DateFormatter);
@@ -49,11 +51,13 @@ new Vue({
     /**
      *  Invoked when user has authenticated and received a token.
      *
-     *  @param  {Strin} token  The session token.
+     *  @param  {String} token  The session token.
+     *  @param  {Object} user  The session user props.
      */
-    didAuthenticate: function(token) {
+    didAuthenticate: function(token, user) {
       this.$APIManager.setToken(token);
       this.setToken(token);
+      this.setUser(user);
       this.loggedIn = true;
       if (this.lastPath) {
         this._router.push(decodeURIComponent(this.lastPath));
@@ -61,11 +65,26 @@ new Vue({
       }
     },
     /**
-     *  Returns the session session token.
+     *  Returns the session token.
      *  @return {String}  The session token.
      */
     getToken: function() {
       return this.$cookie.get('_token');
+    },
+    /**
+     *  Returns the session user props.
+     *  @return {object} The session user props.
+     */
+    getUser: function() {
+      const user = this.$cookie.get('_user');
+      return JSON.parse(user);
+    },
+    /**
+     *  Returns the session user type.
+     *  @return {string} The session user type.
+     */
+    getUserType: function() {
+      return _.get(this.getUser(), 'type');
     },
     /**
      *  Sets the session token.
@@ -74,6 +93,15 @@ new Vue({
      */
     setToken: function(token) {
       return this.$cookie.set('_token', token, '0');
+    },
+    /**
+     *  Sets the user props.
+     *
+     *  @param  {Object} props  The props.
+     */
+    setUser: function(props) {
+      const user = JSON.stringify(props);
+      return this.$cookie.set('_user', user, {});
     },
     /**
      *  Returns the current browser bookmark.
@@ -100,6 +128,7 @@ new Vue({
 
     endSession: function() {
       this.$cookie.delete('_token');
+      this.$cookie.delete('_user');
       this.$APIManager.endSession();
       this.loggedIn = false;
       this._router.push('/');
@@ -108,12 +137,14 @@ new Vue({
   },
   created: function () {
     const token = this.$root.getToken();
+    const user = this.$root.getUser();
+
     if (token) {
       this.$APIManager.verifyToken(token, response => {
         this.initializing = false;
 
         if (response.success) {
-          this.didAuthenticate(token);
+          this.didAuthenticate(token, user);
         } else {
           this.didReceiveAuthenticationError();
         }

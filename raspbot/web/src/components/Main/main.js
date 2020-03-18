@@ -49,7 +49,7 @@ exports.methods = {
     this.$APIManager.authenticate(username, password, response => {
       if (response.success) {
         this.toggleView('Splash', '', false);
-        this.$root.didAuthenticate(response.result.token);
+        this.$root.didAuthenticate(response.result.token, response.result.user);
       } else {
         this.textElement = response.error.message;
       }

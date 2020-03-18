@@ -13,3 +13,17 @@ exports.getSystemInformation = () => {
 		});
 	});
 }
+
+exports.getTempInformation = () => {
+	return new Promise((resolve, reject) => {
+		const pyshell = require('python-shell');
+		const options = { mode: 'json', args: [], scriptPath: './application/.scripts' };
+		pyshell.run('/boot/programs/pokaz_temp.py', options, (error, response) => {
+			if (error) {
+				reject(error);
+			} else {
+				resolve(response[0]);
+			}
+		});
+	});
+}

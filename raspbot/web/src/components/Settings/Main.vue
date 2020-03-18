@@ -1,12 +1,12 @@
 <template>
   <section id="content">
 		<div class="heading">Settings</div>
-		<router-link to="/settings/browser" class="row">
+		<router-link to="/settings/browser" class="row" v-if="this.$root.getUserType() === 'admin'">
 			<div class="icon"><font-awesome-icon icon="hdd"/></div>
 			<div class="title">File browser</div>
 			<div class="arrow"><font-awesome-icon icon="angle-right"/></div>
 		</router-link>
-		<router-link to="/settings/dashboard" class="row">
+		<router-link to="/settings/dashboard" class="row" v-if="this.$root.getUserType() === 'admin'">
 			<div class="icon"><font-awesome-icon icon="tachometer-alt"/></div>
 			<div class="title">Dashboard</div>
 			<div class="arrow"><font-awesome-icon icon="angle-right"/></div>

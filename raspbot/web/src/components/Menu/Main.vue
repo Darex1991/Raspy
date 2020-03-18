@@ -1,14 +1,14 @@
 <template>
   <section id="content">
     <nav class="options">
-      <router-link to="/advanced/devices" class="row">
+      <router-link to="/advanced/devices" class="row" v-if="this.$root.getUserType() === 'admin'">
         <div class="noselect">
           <div class="icon"><font-awesome-icon :icon="['far', 'hdd']"/></div>
           <div class="title">Mount/Unmount</div>
           <div class="arrow"><font-awesome-icon icon="angle-right"/></div>
         </div>
       </router-link>
-      <router-link to="/control" class="row">
+      <router-link to="/control" class="row" v-if="this.$root.getUserType() === 'admin'">
         <div class="noselect">
           <div class="icon"><font-awesome-icon icon="keyboard"/></div>
           <div class="title">Control</div>

@@ -1,6 +1,6 @@
 <template>
   <section id="content">
-    <nav class="options">
+    <nav class="options" v-if="this.$root.getUserType() === 'admin'">
       <router-link to="/dashboard/shutdown">
         <div class="noselect">
           <font-awesome-icon icon="power-off"/>
@@ -19,17 +19,25 @@
       <div class="icon">
         <font-awesome-icon icon="thermometer-three-quarters"/> {{this.temperature}}
       </div>
+      <div class="icon">
+        <font-awesome-icon :icon="['fab', 'windows']" /> {{this.temperature}}
+      </div>
+
+      <div class="box">
+        <div class="title"><font-awesome-icon icon="clock"/> Uptime:</div>
+        <div class="description">{{this.convertTime(this.uptime.total_seconds)}}</div>
+      </div>
 
       <div class="table-view">
         <div class="table-row-view">
           <div class="table-cell-view">CPU usage:</div>
           <div class="table-cell-view right">{{this.cpu}} %</div>
         </div>
-        <div class="table-row-view">
+        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
           <div class="table-cell-view">RAM total: </div>
           <div class="table-cell-view right">{{this.convertSize(this.ram.total)}}</div>
         </div>
-        <div class="table-row-view">
+        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
           <div class="table-cell-view">RAM used: </div>
           <div class="table-cell-view right">{{this.convertSize(this.ram.used)}}</div>
         </div>
@@ -37,11 +45,11 @@
           <div class="table-cell-view">RAM available: </div>
           <div class="table-cell-view right">{{this.convertSize(this.ram.available)}}</div>
         </div>
-        <div class="table-row-view">
+        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
           <div class="table-cell-view">HDD total:</div>
           <div class="table-cell-view right">{{this.convertSize(this.disk.total)}}</div>
         </div>
-        <div class="table-row-view">
+        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
           <div class="table-cell-view">HDD used:</div>
           <div class="table-cell-view right">{{this.convertSize(this.disk.used)}}</div>
         </div>
@@ -49,11 +57,6 @@
           <div class="table-cell-view">HDD free:</div>
           <div class="table-cell-view right">{{this.convertSize(this.disk.free)}}</div>
         </div>
-      </div>
-
-      <div class="box">
-        <div class="title"><font-awesome-icon icon="clock"/> Uptime:</div>
-        <div class="description">{{this.convertTime(this.uptime.total_seconds)}}</div>
       </div>
     </div>
 
@@ -63,9 +66,10 @@
 <script>
 import { data, created, methods, beforeDestroy } from '@/components/Dashboard/dashboard.js';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import { faWindows } from '@fortawesome/free-brands-svg-icons';
 import { faPowerOff, faRedo, faThermometerThreeQuarters, faClock } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPowerOff, faRedo, faThermometerThreeQuarters, faClock);
+library.add(faPowerOff, faRedo, faThermometerThreeQuarters, faClock, faWindows);
 
 export default {
   name: 'Dashboard',

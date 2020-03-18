@@ -1,4 +1,5 @@
 'use strict'
+const _           = require('lodash');
 const bcryptjs 	 = require('bcryptjs');
 const parser 	 = require('./parser.js');
 const token 	 = require('./token.js');
@@ -69,8 +70,8 @@ module.exports = databasePath => {
 						token.generate((error, userToken) => {
 							if (error) { throw error; }
 							const clientIP = req.headers['x-forwarded-for'] || req.connection.remoteAddress
-							token.save(userToken, clientIP, user.username);
-							resolve(userToken);
+							token.save(userToken, clientIP, user.username, user.type);
+							resolve({ token: userToken, user: _.omit(user, 'password') });
 						});
 					});
 				} else {

@@ -26,8 +26,8 @@ module.exports = app => {
 	});
 
 	router.post('/login', (req, res) => {
-		auther.authenticate(req).then(token => {
-			res.json({ success: true, result: { token: token } });
+		auther.authenticate(req).then(response => {
+			res.json({ success: true, result: response });
 		}).catch(error => {
 			res.json({ success: false, error: { message: error.message } });
 		});

@@ -1,7 +1,7 @@
 <template>
 	<header id="header">
 		<nav class="menu">
-				<router-link v-bind:to="this.browsePath()" v-bind:class="{ active: this.$route.meta.tab == 1 }">
+				<router-link v-if="this.$root.getUserType() == 'admin'" v-bind:to="this.browsePath()" v-bind:class="{ active: this.$route.meta.tab == 1 }">
 					<font-awesome-icon icon="hdd"/>
 					<div>Files</div>
 				</router-link>
@@ -27,6 +27,9 @@ library.add(faHdd, faTachometerAlt, faSlidersH, faAlignJustify);
 
 export default {
 	name: 'Header',
+  mounted: function() {
+    console.log(this.$root.getUserType())
+  },
 	methods: {
 		browsePath: function () {
 			let favorite = this.$root.getBookmark();

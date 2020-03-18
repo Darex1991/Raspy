@@ -24,11 +24,12 @@ exports.generate = callback => {
 	});
 };
 
-exports.save = (token, clientIP, username) => {
+exports.save = (token, clientIP, username, userType) => {
 	lowdb.get('tokens').push({
 		token: token,
 		clientIP: clientIP,
 		username: username,
+		userType: userType,
 		loggedIn: new Date()
 	}).write();
 };

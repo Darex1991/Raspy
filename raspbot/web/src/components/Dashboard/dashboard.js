@@ -44,6 +44,21 @@ exports.methods = {
         }
       }
     });
+
+    this.$APIManager.getTempInformation(response => {
+      if (response.success) {
+        debugger;
+        // this.ram = response.result.ram;
+        // this.cpu = response.result.cpu;
+        // this.disk = response.result.disk;
+        // this.uptime = response.result.uptime;
+        // this.temperature = this.convertTemperature(response.result.temperature);
+      } else {
+        if (response.error.statusCode == 401) {
+          this.$root.didReceiveAuthenticationError();
+        }
+      }
+    });
   },
   /**
    * Converts temperature from Celsius to Fahrenheit.

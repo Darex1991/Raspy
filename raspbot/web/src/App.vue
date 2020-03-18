@@ -123,6 +123,7 @@ body {
 	font-size:  5vw;
 	margin:     auto;
 	width:      95%;
+  margin-top: 8vw;
 }
 
 .table-view .table-row-view {

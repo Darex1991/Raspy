@@ -169,6 +169,20 @@ export default {
         });
       },
       /**
+       * Retrieves temp information.
+       *
+       * Calls the /dashboard endpoint.
+       *
+       * @param  {Function} callback The callback to invoke on response.
+       */
+      getTempInformation: function(callback) {
+        this.HTTP.get('dashboard').then(response => {
+          if (typeof callback === 'function') callback(response.data);
+        }).catch(error => {
+          if (typeof callback === 'function') callback(handleError(error));
+        });
+      },
+      /**
        * Changes the current users password.
        *
        * Calls the /account/password endpoint.

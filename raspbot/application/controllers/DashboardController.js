@@ -8,3 +8,11 @@ exports.systemInformation = (req, res) => {
 		res.status(500).json({success: false, error: error.message});
 	});
 };
+
+exports.tempInformation = (req, res) => {
+	dashboard.getTempInformation().then(response => {
+		res.json({success: true, result: response});
+	}).catch(error => {
+		res.status(500).json({success: false, error: error.message});
+	});
+}
