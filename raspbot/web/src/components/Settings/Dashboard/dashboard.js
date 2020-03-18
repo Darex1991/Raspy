@@ -5,7 +5,7 @@ exports.data = function() {
   const rate = this.$cookie.get('refreshRate');
 
   return {
-    refreshRate:      (rate) ? rate : 0,
+    refreshRate:      (rate) ? rate : 20,
     temperatureScale: (temp) ? temp : 'c'
   }
 };

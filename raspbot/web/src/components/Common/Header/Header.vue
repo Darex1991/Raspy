@@ -27,9 +27,6 @@ library.add(faHdd, faTachometerAlt, faSlidersH, faAlignJustify);
 
 export default {
 	name: 'Header',
-  mounted: function() {
-    console.log(this.$root.getUserType())
-  },
 	methods: {
 		browsePath: function () {
 			let favorite = this.$root.getBookmark();
