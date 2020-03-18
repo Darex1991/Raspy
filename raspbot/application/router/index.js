@@ -81,6 +81,10 @@ module.exports = app => {
 	// ------------------------------
 	router.route('/dashboard').get(dashboardController.systemInformation);
 	// ------------------------------
+	//          /dashboard
+	// ------------------------------
+	router.route('/dashboard/temp').get(dashboardController.tempInformation);
+	// ------------------------------
 	//          /disks
 	// ------------------------------
 	router.route('/disks').get(systemController.getDisks);

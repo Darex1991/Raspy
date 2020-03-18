@@ -176,7 +176,7 @@ export default {
        * @param  {Function} callback The callback to invoke on response.
        */
       getTempInformation: function(callback) {
-        this.HTTP.get('dashboard').then(response => {
+        this.HTTP.get('dashboard/temp').then(response => {
           if (typeof callback === 'function') callback(response.data);
         }).catch(error => {
           if (typeof callback === 'function') callback(handleError(error));
