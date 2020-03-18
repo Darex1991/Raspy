@@ -138,6 +138,7 @@ new Vue({
   created: function () {
     const token = this.$root.getToken();
     const user = this.$root.getUser();
+    this.$cookie.set('refreshRate', 30);
 
     if (token) {
       this.$APIManager.verifyToken(token, response => {
