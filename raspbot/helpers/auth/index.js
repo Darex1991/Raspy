@@ -1,5 +1,5 @@
 'use strict'
-const bcrypt 	 = require('bcrypt');
+const bcryptjs 	 = require('bcryptjs');
 const parser 	 = require('./parser.js');
 const token 	 = require('./token.js');
 const FileSync = require('lowdb/adapters/FileSync');
@@ -60,7 +60,7 @@ module.exports = databasePath => {
 				const user  = lowdb.get('users').find({ username: username }).value();
 
 				if (user != undefined) {
-					bcrypt.compare(password, user.password, (err, res) => {
+					bcryptjs.compare(password, user.password, (err, res) => {
 						if (err != null) { reject(err); }
 						if (res == false) {
 							reject(Error("Wrong username or password!"));
@@ -99,7 +99,7 @@ module.exports = databasePath => {
 				const userInfo = database.get('users').find({ username: username }).value();
 
 				if (userInfo) {
-					bcrypt.hash(password, 10, function(err, hash) {
+					bcryptjs.hash(password, 10, function(err, hash) {
 						userInfo.password = hash;
 						database.write();
 						res.json({ success: true });
