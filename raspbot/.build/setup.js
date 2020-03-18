@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const config = require('../config');
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 
 const databasePath =  (process.env.NODE_ENV != 'production')
                       ? config.development.databasePath
@@ -16,7 +16,7 @@ if (!fs.existsSync(filePath)) {
   const FileSync = require('lowdb/adapters/FileSync');
   const database = require('lowdb')(new FileSync(filePath));
 
-  bcrypt.hash('secret', 10, function(err, hash) {
+  bcryptjs.hash('secret', 10, function(err, hash) {
     database.defaults({ users: [{ username: 'admin', password: hash }] }).write();
   });
 }
