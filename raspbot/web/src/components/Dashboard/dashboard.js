@@ -6,7 +6,12 @@ exports.data = function() {
     cpu: {},
     disk: 0,
     uptime: {},
-    temperature: 0,
+    temperatureInGardenLoading: false,
+    temperature: undefined,
+    temperatureLoading: false,
+    isOpenedWindow: undefined,
+    temperatureInGarden: undefined,
+    timeOfCheckedTemperature: undefined,
     intervalID: null,
     temperatureScale: undefined
   }
@@ -31,32 +36,35 @@ exports.methods = {
    * Updates the dashboard.
    */
   update: function () {
+    this.temperatureInGardenLoading = this.temperatureInGarden === undefined;
+    this.temperatureLoading = this.temperature === undefined;
+
     this.$APIManager.getSystemInformation(response => {
-      console.log('dashboard.js', response)
       if (response.success) {
         this.ram = response.result.ram;
         this.cpu = response.result.cpu;
         this.disk = response.result.disk;
         this.uptime = response.result.uptime;
         this.temperature = this.convertTemperature(response.result.temperature);
+        this.temperatureLoading = false;
       } else {
         if (response.error.statusCode == 401) {
           this.$root.didReceiveAuthenticationError();
+          this.temperatureLoading = false;
         }
       }
     });
 
     this.$APIManager.getTempInformation(response => {
-      console.log(response, 'resp')
       if (response.success) {
-        // this.ram = response.result.ram;
-        // this.cpu = response.result.cpu;
-        // this.disk = response.result.disk;
-        // this.uptime = response.result.uptime;
-        // this.temperature = this.convertTemperature(response.result.temperature);
+        this.temperatureInGarden = response.result.temperature;
+        this.timeOfCheckedTemperature = response.result.time;
+        this.isOpenedWindow = response.result.is_open;
+        this.temperatureInGardenLoading = false;
       } else {
         if (response.error.statusCode == 401) {
           this.$root.didReceiveAuthenticationError();
+          this.temperatureInGardenLoading = false;
         }
       }
     });
@@ -75,6 +83,32 @@ exports.methods = {
 
     return temperature + '°C';
   },
+  /**
+   * Add temperature from Celsius to Fahrenheit.
+   *
+   * @param  {Int} temperature The original temperature.
+   * @return {String}             The converted temperature.
+   */
+  addTemperatureUnit: function (temperature) {
+    if (temperature == null || temperature == 'NaN') return 'N/A';
+    if (this.temperatureScale == 'f') {
+      return temperature + '°F';
+    }
+
+    return temperature + '°C';
+  },
+
+  /**
+   * Convert flag about opened window.
+   *
+   * @return {String}             The converted text.
+   */
+  convertIsOpenedWindowText: function () {
+    if (this.isOpenedWindow == null || this.isOpenedWindow == 'NaN') return 'N/A';
+
+    return this.isOpenedWindow ? 'Otwarte' : 'Zamknięte';
+  },
+
   /**
    * Converts the given bytes to a human readable format.
    *

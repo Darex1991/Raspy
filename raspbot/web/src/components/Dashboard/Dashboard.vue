@@ -16,48 +16,75 @@
     </nav>
 
     <div class="column-view">
+
       <div class="icon">
-        <font-awesome-icon icon="thermometer-three-quarters"/> {{this.temperature}}
+        <font-awesome-icon icon="thermometer-three-quarters"/> <Loading v-bind:condition="this.temperatureInGardenLoading">{{this.addTemperatureUnit(this.temperatureInGarden)}}</Loading>
       </div>
+      <div class="icon" v-if="this.$root.getUserType() === 'admin'">
+        <font-awesome-icon :icon="['fab', 'raspberry-pi']"/>
+        <font-awesome-icon icon="thermometer-three-quarters"/>
+        <Loading v-bind:condition="this.temperatureLoading">{{this.temperature}}</Loading>
+      </div>
+
       <div class="icon">
-        <font-awesome-icon :icon="['fab', 'windows']" /> {{this.temperature}}
+        <font-awesome-icon :icon="['fab', 'windows']" /> <Loading v-bind:condition="this.temperatureLoading"><div class="dashboard__window">{{this.convertIsOpenedWindowText()}}</div></Loading>
       </div>
 
       <div class="box">
-        <div class="title"><font-awesome-icon icon="clock"/> Uptime:</div>
-        <div class="description">{{this.convertTime(this.uptime.total_seconds)}}</div>
+        <div class="title"><font-awesome-icon icon="clock"/> Temp sprawdzona:</div>
+        <div class="description"><Loading v-bind:condition="this.temperatureInGardenLoading" height="20px" width="3px">{{this.timeOfCheckedTemperature}}</Loading></div>
       </div>
 
-      <div class="table-view">
-        <div class="table-row-view">
-          <div class="table-cell-view">CPU usage:</div>
-          <div class="table-cell-view right">{{this.cpu}} %</div>
-        </div>
-        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
-          <div class="table-cell-view">RAM total: </div>
-          <div class="table-cell-view right">{{this.convertSize(this.ram.total)}}</div>
-        </div>
-        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
-          <div class="table-cell-view">RAM used: </div>
-          <div class="table-cell-view right">{{this.convertSize(this.ram.used)}}</div>
-        </div>
-        <div class="table-row-view">
-          <div class="table-cell-view">RAM available: </div>
-          <div class="table-cell-view right">{{this.convertSize(this.ram.available)}}</div>
-        </div>
-        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
-          <div class="table-cell-view">HDD total:</div>
-          <div class="table-cell-view right">{{this.convertSize(this.disk.total)}}</div>
-        </div>
-        <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
-          <div class="table-cell-view">HDD used:</div>
-          <div class="table-cell-view right">{{this.convertSize(this.disk.used)}}</div>
-        </div>
-        <div class="table-row-view">
-          <div class="table-cell-view">HDD free:</div>
-          <div class="table-cell-view right">{{this.convertSize(this.disk.free)}}</div>
-        </div>
+      <div class="box">
+        <div class="title"><font-awesome-icon :icon="['fab', 'raspberry-pi']"/> Włączony od:</div>
+        <div class="description"><Loading v-bind:condition="this.temperatureLoading" height="20px" width="3px">{{this.convertTime(this.uptime.total_seconds)}}</Loading></div>
       </div>
+
+        <div class="table-view">
+          <div class="table-row-view">
+            <div class="table-cell-view">CPU usage:</div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.cpu}} %</Loading>
+            </div>
+          </div>
+          <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
+            <div class="table-cell-view">RAM total: </div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.ram.total)}}
+              </Loading>
+            </div>
+          </div>
+          <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
+            <div class="table-cell-view">RAM used: </div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.ram.used)}}</Loading>
+            </div>
+          </div>
+          <div class="table-row-view">
+            <div class="table-cell-view">RAM available: </div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.ram.available)}}</Loading>
+            </div>
+          </div>
+          <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
+            <div class="table-cell-view">HDD total:</div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.disk.total)}}</Loading>
+            </div>
+          </div>
+          <div class="table-row-view" v-if="this.$root.getUserType() === 'admin'">
+            <div class="table-cell-view">HDD used:</div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.disk.used)}}</Loading>
+            </div>
+          </div>
+          <div class="table-row-view">
+            <div class="table-cell-view">HDD free:</div>
+            <div class="table-cell-view right">
+              <Loading v-bind:condition="this.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.disk.free)}}</Loading>
+            </div>
+          </div>
+        </div>
     </div>
 
   </section>
@@ -65,18 +92,20 @@
 
 <script>
 import { data, created, methods, beforeDestroy } from '@/components/Dashboard/dashboard.js';
+import Loader from 'vue-spinner/src/ScaleLoader.vue'
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faWindows } from '@fortawesome/free-brands-svg-icons';
+import { faWindows, faRaspberryPi } from '@fortawesome/free-brands-svg-icons';
 import { faPowerOff, faRedo, faThermometerThreeQuarters, faClock } from '@fortawesome/free-solid-svg-icons';
-
-library.add(faPowerOff, faRedo, faThermometerThreeQuarters, faClock, faWindows);
+import Loading from '@/components/Common/Loading/Loading.vue';
+library.add(faPowerOff, faRedo, faThermometerThreeQuarters, faClock, faWindows, faRaspberryPi);
 
 export default {
   name: 'Dashboard',
   data: data,
   created: created,
   methods: methods,
-  beforeDestroy: beforeDestroy
+  beforeDestroy: beforeDestroy,
+  components: { Loader, Loading }
 }
 </script>
 
@@ -117,6 +146,12 @@ export default {
 
 .box > .description {
   text-align: center;
+}
+
+.dashboard__window {
+    font-size: 11vw;
+    top: -5px;
+    position: relative;
 }
 
 </style>
