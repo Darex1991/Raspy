@@ -1,9 +1,9 @@
 <template>
   <div id="loginBox">
     <div class="input">
-      <div><input type="text" name="username" placeholder="Username" v-model="username"></div>
-      <div><input type="password" name="password" placeholder="Password" v-model="password"></div>
-      <div><div class="button noselect" v-on:click="_signIn">Sign in</div></div>
+      <div><input type="text" name="username" placeholder="Login" v-model="username"></div>
+      <div><input type="password" name="password" placeholder="Hasło" v-model="password" v-on:keyup.enter="_signIn"></div>
+      <div><div class="button noselect" v-on:click="_signIn">Zaloguj</div></div>
       <div>{{textElement}}&nbsp;</div>
     </div>
   </div>

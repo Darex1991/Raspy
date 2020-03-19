@@ -63,6 +63,9 @@ new Vue({
         this._router.push(decodeURIComponent(this.lastPath));
         this.lastPath = null;
       }
+      else {
+        this._router.push('/dashboard');
+      }
     },
     /**
      *  Returns the session token.

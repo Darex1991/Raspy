@@ -1,9 +1,9 @@
 <template>
   <section id="content">
-    <div class="heading">Edit pasword</div>
+    <div class="heading">Zmień hasło</div>
     <div id="container">
       <input type="password" name="password" v-model="password" value="" :disabled="isDisabled">
-      <div class="button" v-on:click="updatePassword">Save</div>
+      <div class="button" v-on:click="updatePassword">Zapisz</div>
       <div>{{message}}</div>
     </div>
   </section>

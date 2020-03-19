@@ -20,9 +20,10 @@ exports.methods = {
       this.isDisabled = true;
       this.$APIManager.updatePassword(this.password, response => {
         if (response.success) {
-          this.message = 'Password changed!';
+          this.message = 'Hasło zmienione!';
+          this._router.push('/');
         } else {
-          this.message = 'Could not change password'
+          this.message = 'Hasło nie mogło zostać zmienione'
         }
 
         this.isDisabled = false;

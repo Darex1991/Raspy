@@ -32,7 +32,7 @@ export default {
   },
   data: function() {
     return {
-      textElement: 'Initializing'
+      textElement: 'Ładowanie'
     }
   }
 }

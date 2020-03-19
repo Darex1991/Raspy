@@ -135,9 +135,13 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-top: 8vw;
+  margin-top: 10vw;
   align-items: center;
   width: 100%;
+}
+
+.box + .box {
+  margin-top: 5vw;
 }
 
 .box > .title {

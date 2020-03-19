@@ -1,18 +1,9 @@
 'use strict'
 const Memory = require('lowdb/adapters/Memory');
 const lowdb  = require('lowdb')(new Memory());
-const cronjob = require('cron').CronJob;
 
 lowdb.defaults({ tokens: [] }).write();
 // Clean up tokens older than 24 hours every day
-const job = new cronjob('* 00 00 * * *', function() {
-	console.log("Cleaning up old tokens...");
-	const dateLimit = 24 * 60 * 60 * 1000; // 24 hours
-	lowdb.get('tokens').remove(data => {
-		const date = ((new Date()) - data.loggedIn);
-		return (date > dateLimit);
-	}).write();
-}, null, true);
 
 exports.generate = callback => {
 	require('crypto').randomBytes(24, (error, buffer) => {

@@ -47,14 +47,14 @@ module.exports = databasePath => {
 				let credentials = decodeBasicAuth(req);
 
 				if (!credentials) {
-					reject(Error("Missing headers."));
+					reject(Error("Brakuje nagłowka."));
 				}
 
 				let username = credentials.username;
 				let password = credentials.password;
 
 				if (username == undefined || username == null) {
-					reject(Error("Missing username."));
+					reject(Error("Brakuje loginu."));
 				}
 
 				const lowdb = require('lowdb')(new FileSync(databasePath));
@@ -64,7 +64,7 @@ module.exports = databasePath => {
 					bcryptjs.compare(password, user.password, (err, res) => {
 						if (err != null) { reject(err); }
 						if (res == false) {
-							reject(Error("Wrong username or password!"));
+							reject(Error("Błędny login lub hasło!"));
 						}
 
 						token.generate((error, userToken) => {
@@ -75,7 +75,7 @@ module.exports = databasePath => {
 						});
 					});
 				} else {
-					reject(Error("User not found."));
+					reject(Error("Nie znaleziono użytkownika"));
 				}
 			});
 		},
@@ -86,7 +86,7 @@ module.exports = databasePath => {
 			return res.status(401).json({
 				success: false,
 				error: {
-					message: 'Unauthorized access.'
+					message: 'Brak dostępu.'
 				}
 			});
 		},
@@ -106,7 +106,7 @@ module.exports = databasePath => {
 						res.json({ success: true });
 					});
 				} else {
-					res.json({ success: false, error: { message: 'User not found.'}});
+					res.json({ success: false, error: { message: 'Nie znaleziono użytkownika.'}});
 				}
 			}
 		}

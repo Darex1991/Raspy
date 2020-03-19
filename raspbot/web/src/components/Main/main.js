@@ -3,7 +3,7 @@
 exports.data = () => {
   return {
     component: 'Splash',
-    textElement: 'Initializing',
+    textElement: 'Ładowanie',
     animation: true
   }
 }
@@ -45,7 +45,7 @@ exports.methods = {
   },
 
   signIn: function(username, password) {
-    this.textElement = "Signing in...";
+    this.textElement = "Logowanie...";
     this.$APIManager.authenticate(username, password, response => {
       if (response.success) {
         this.toggleView('Splash', '', false);
