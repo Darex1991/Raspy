@@ -177,6 +177,7 @@ export default {
        */
       getTempInformation: function(callback) {
         this.HTTP.get('dashboard/temp').then(response => {
+          console.log('dashboard/temp', response);
           if (typeof callback === 'function') callback(response.data);
         }).catch(error => {
           if (typeof callback === 'function') callback(handleError(error));
