@@ -51,7 +51,7 @@ export const methods = {
         this.contentMessage = "Zaktualizowana temperatura";
         console.log(response);
         this.$root.minTemperatureForOpeningWindow = response.result;
-        this._router.push('/dashboard');
+        this.$root._router.push('/dashboard');
       } else {
         this.contentMessage = "Nie udało się zmienić temp"
       }

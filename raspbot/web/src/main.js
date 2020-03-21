@@ -236,6 +236,7 @@ new Vue({
     }
   },
   beforeDestroy: function() {
+    console.log('before destro');
     if (this.intervalID != null) clearInterval(this.intervalID);
   },
 });
