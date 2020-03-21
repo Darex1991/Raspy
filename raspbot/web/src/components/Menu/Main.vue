@@ -8,14 +8,14 @@
           <div class="arrow"><font-awesome-icon icon="angle-right"/></div>
         </div>
       </router-link>
-      <router-link to="/control" class="row" v-if="this.$root.getUserType() === 'admin'">
+      <router-link to="/control" class="row">
         <div class="noselect">
           <div class="icon"><font-awesome-icon icon="keyboard"/></div>
-          <div class="title">Control</div>
+          <div class="title">Zmiana ustawień</div>
           <div class="arrow"><font-awesome-icon icon="angle-right"/></div>
         </div>
       </router-link>
-      <router-link to="/settings" class="row" v-if="this.$root.getUserType() === 'admin'">
+      <router-link to="/settings" class="row">
         <div class="noselect">
           <div class="icon"><font-awesome-icon icon="sliders-h"/></div>
           <div class="title">Ustawienia</div>

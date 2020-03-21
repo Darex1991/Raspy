@@ -181,6 +181,33 @@ export default {
         }).catch(error => {
           if (typeof callback === 'function') callback(handleError(error));
         });
+      },/**
+       * Retrieves min_temp information for opening window.
+       *
+       * Calls the /dashboard endpoint.
+       *
+       * @param  {Function} callback The callback to invoke on response.
+       */
+      getMinTempInformation: function(callback) {
+        this.HTTP.get('dashboard/min_temp').then(response => {
+          if (typeof callback === 'function') callback(response.data);
+        }).catch(error => {
+          if (typeof callback === 'function') callback(handleError(error));
+        });
+      },
+      /**
+       * Update temp of opening window.
+       *
+       * Calls the /dashboard endpoint.
+       *
+       * @param  {Function} callback The callback to invoke on response.
+       */
+      updateMinTempInformation: function(temp, callback) {
+        this.HTTP.post('dashboard/update_min_temp', { temp }).then(response => {
+          if (typeof callback === 'function') callback(response.data);
+        }).catch(error => {
+          if (typeof callback === 'function') callback(handleError(error));
+        });
       },
       /**
        * Changes the current users password.

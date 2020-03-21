@@ -81,9 +81,15 @@ module.exports = app => {
 	// ------------------------------
 	router.route('/dashboard').get(dashboardController.systemInformation);
 	// ------------------------------
-	//          /dashboard
+	//          /dashboard/temp
 	// ------------------------------
 	router.route('/dashboard/temp').get(dashboardController.tempInformation);
+	//          /dashboard/min_temp
+	// ------------------------------
+	router.route('/dashboard/min_temp').get(dashboardController.minTempInformation);
+	//          /dashboard/update_min_temp
+	// ------------------------------
+	router.route('/dashboard/update_min_temp').post(dashboardController.updateMinTempInformation);
 	// ------------------------------
 	//          /disks
 	// ------------------------------

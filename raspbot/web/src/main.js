@@ -34,6 +34,22 @@ new Vue({
       loggedIn: false,
       lastPath: null,
       initializing: true,
+      intervalID: null,
+      // silownik
+      temperatureInGarden: undefined,
+      temperatureInGardenLoading: false,
+      isOpenedWindow: undefined,
+      timeOfCheckedTemperature: undefined,
+      // min temp for window
+      minTemperatureForOpeningWindowLoading: false,
+      minTemperatureForOpeningWindow: undefined,
+      // system info
+      ram: {},
+      cpu: {},
+      disk: 0,
+      uptime: {},
+      temperature: undefined,
+      temperatureLoading: false,
       debugMode: (process.env.NODE_ENV != 'production')
     }
   },
@@ -59,6 +75,8 @@ new Vue({
       this.setToken(token);
       this.setUser(user);
       this.loggedIn = true;
+      this.update();
+
       if (this.lastPath) {
         this._router.push(decodeURIComponent(this.lastPath));
         this.lastPath = null;
@@ -135,8 +153,63 @@ new Vue({
       this.$APIManager.endSession();
       this.loggedIn = false;
       this._router.push('/');
-    }
+    },
+    getSystemInformation: function () {
+      this.temperatureLoading = this.temperature === undefined;
 
+      this.$APIManager.getSystemInformation(response => {
+        if (response.success) {
+          this.ram = response.result.ram;
+          this.cpu = response.result.cpu;
+          this.disk = response.result.disk;
+          this.uptime = response.result.uptime;
+          this.temperature = response.result.temperature;
+          this.temperatureLoading = false;
+        } else {
+          if (response.error.statusCode == 401) {
+            this.didReceiveAuthenticationError();
+            this.temperatureLoading = false;
+          }
+        }
+      });
+    },
+    getTempInformation: function () {
+      this.temperatureInGardenLoading = this.temperatureInGarden === undefined;
+
+      this.$APIManager.getTempInformation(response => {
+        if (response.success) {
+          this.temperatureInGarden = response.result.temperature;
+          this.timeOfCheckedTemperature = response.result.time;
+          this.isOpenedWindow = response.result.is_open;
+          this.temperatureInGardenLoading = false;
+        } else {
+          if (response.error.statusCode == 401) {
+            this.didReceiveAuthenticationError();
+            this.temperatureInGardenLoading = false;
+          }
+        }
+      });
+    },
+    getMinTempInformation: function () {
+      this.minTemperatureForOpeningWindowLoading = this.minTemperatureForOpeningWindow === undefined;
+
+      this.$APIManager.getMinTempInformation(response => {
+        if (response.success) {
+          this.minTemperatureForOpeningWindow = response.result.min_temp;
+          this.minTemperatureForOpeningWindowLoading = false;
+        } else {
+          if (response.error.statusCode == 401) {
+            this.didReceiveAuthenticationError();
+            this.minTemperatureForOpeningWindowLoading = false;
+          }
+        }
+      });
+    },
+    update: function () {
+      this.getSystemInformation();
+      this.getTempInformation();
+      this.getMinTempInformation();
+    }
   },
   created: function () {
     const token = this.$root.getToken();
@@ -149,6 +222,10 @@ new Vue({
 
         if (response.success) {
           this.didAuthenticate(token, user);
+          let refreshRate = this.$cookie.get('refreshRate');
+          if (refreshRate > 0) {
+            this.intervalID = setInterval(this.update, refreshRate * 1000);
+          }
         } else {
           this.didReceiveAuthenticationError();
         }
@@ -157,5 +234,8 @@ new Vue({
       this.initializing = false;
       this.didReceiveAuthenticationError();
     }
-  }
+  },
+  beforeDestroy: function() {
+    if (this.intervalID != null) clearInterval(this.intervalID);
+  },
 });

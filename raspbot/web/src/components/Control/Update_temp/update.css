@@ -1,0 +1,34 @@
+#content {
+	margin: 10px 0;
+}
+
+.red {
+	background: rgb(172, 82, 82);
+}
+
+.update__buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.update__buttons--change {
+  justify-content: center;
+}
+
+.update__buttons--change .button {
+  width: 10px;
+}
+
+.update__input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.update__input input {
+  text-align: center;
+  width: 20%;
+}
