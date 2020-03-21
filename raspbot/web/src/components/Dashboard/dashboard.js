@@ -2,12 +2,18 @@
 
 exports.data = function() {
   return {
+    intervalID: null,
     temperatureScale: undefined
   }
 };
 
 exports.created = function() {
   this.temperatureScale = this.$cookie.get('temperatureScale');
+
+  let refreshRate = this.$cookie.get('refreshRate');
+  if (refreshRate > 0) {
+    this.intervalID = setInterval(this.$root.update, refreshRate * 1000);
+  }
 };
 
 exports.methods = {

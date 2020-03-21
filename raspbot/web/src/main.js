@@ -206,6 +206,7 @@ new Vue({
       });
     },
     update: function () {
+      console.log('---update--');
       this.getSystemInformation();
       this.getTempInformation();
       this.getMinTempInformation();
@@ -222,10 +223,6 @@ new Vue({
 
         if (response.success) {
           this.didAuthenticate(token, user);
-          let refreshRate = this.$cookie.get('refreshRate');
-          if (refreshRate > 0) {
-            this.intervalID = setInterval(this.update, refreshRate * 1000);
-          }
         } else {
           this.didReceiveAuthenticationError();
         }
