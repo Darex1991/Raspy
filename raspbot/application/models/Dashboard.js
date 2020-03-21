@@ -86,6 +86,7 @@ exports.updateMinTempInformation = (minTemp) => {
 			const pyshell = require('python-shell');
 			const options = { mode: 'json', args: [minTemp], scriptPath: '../../boot/programs' };
 			pyshell.run('update_temp.py', options, (error, response) => {
+				console.log(response, 'response')
 				if (error) {
 					reject(error);
 				} else {

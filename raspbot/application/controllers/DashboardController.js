@@ -28,7 +28,7 @@ exports.minTempInformation = (req, res) => {
 exports.updateMinTempInformation = (req, res) => {
 
 	console.log(req.body.temp);
-	dashboard.updateMinTempInformation(12).then(response => {
+	dashboard.updateMinTempInformation(req.body.temp).then(response => {
 		res.json({success: true, result: response});
 	}).catch(error => {
 		res.status(500).json({success: false, error: error.message});
