@@ -48,7 +48,10 @@ export const methods = {
 
     this.$APIManager.updateMinTempInformation(this.value, response => {
       if (response.success) {
-        this.contentMessage = "Zaktualizowana temperatura"
+        this.contentMessage = "Zaktualizowana temperatura";
+        console.log(response);
+        this.$root.minTemperatureForOpeningWindow = response.result;
+        this._router.push('/dashboard');
       } else {
         this.contentMessage = "Nie udało się zmienić temp"
       }
