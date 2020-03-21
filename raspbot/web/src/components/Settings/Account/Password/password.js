@@ -21,7 +21,7 @@ exports.methods = {
       this.$APIManager.updatePassword(this.password, response => {
         if (response.success) {
           this.message = 'Hasło zmienione!';
-          this._router.push('/');
+          this.$root._router.push('/dashboard');
         } else {
           this.message = 'Hasło nie mogło zostać zmienione'
         }

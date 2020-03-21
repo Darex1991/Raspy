@@ -16,3 +16,21 @@ exports.tempInformation = (req, res) => {
 		res.status(500).json({success: false, error: error.message});
 	});
 }
+
+exports.minTempInformation = (req, res) => {
+	dashboard.getMinTempInformation().then(response => {
+		res.json({success: true, result: response});
+	}).catch(error => {
+		res.status(500).json({success: false, error: error.message});
+	});
+};
+
+exports.updateMinTempInformation = (req, res) => {
+
+	console.log(req.body.temp);
+	dashboard.updateMinTempInformation(12).then(response => {
+		res.json({success: true, result: response});
+	}).catch(error => {
+		res.status(500).json({success: false, error: error.message});
+	});
+}

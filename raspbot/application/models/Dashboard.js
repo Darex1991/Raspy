@@ -60,3 +60,38 @@ exports.getTempInformation = () => {
 		}
 	});
 };
+
+exports.getMinTempInformation = () => {
+	return new Promise((resolve, reject) => {
+		if (process.env.NODE_ENV != 'production') {
+			setTimeout(() => { resolve({ min_temp: 22 })}, 5000);
+		}
+		else {
+			const pyshell = require('python-shell');
+			const options = { mode: 'json', args: [], scriptPath: '../../boot/programs' };
+			pyshell.run('pokaz_min_temp.py', options, (error, response) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(response[0]);
+				}
+			});
+		}
+	});
+};
+
+exports.updateMinTempInformation = (minTemp) => {
+	return new Promise((resolve, reject) => {
+		if (process.env.NODE_ENV == 'production') {
+			const pyshell = require('python-shell');
+			const options = { mode: 'json', args: [minTemp], scriptPath: '../../boot/programs' };
+			pyshell.run('update_temp.py', options, (error, response) => {
+				if (error) {
+					reject(error);
+				} else {
+					resolve(response[0]);
+				}
+			});
+		}
+	});
+};

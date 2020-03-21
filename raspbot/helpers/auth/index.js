@@ -101,8 +101,7 @@ module.exports = databasePath => {
 
 				if (userInfo) {
 					bcryptjs.hash(password, 10, function(err, hash) {
-						userInfo.password = hash;
-						database.write();
+						database.get('users').find({ username: username }).assign({ password: hash }).write();
 						res.json({ success: true });
 					});
 				} else {

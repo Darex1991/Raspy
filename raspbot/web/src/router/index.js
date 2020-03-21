@@ -15,6 +15,7 @@ import SettingsAccount from '@/components/Settings/Account/Account.vue';
 import SettingsAccountPassword from '@/components/Settings/Account/Password/Password.vue';
 import Control from '@/components/Control/Control.vue';
 import UpdateRaspbot from '@/components/Control/Update/Update.vue';
+import UpdateTemp from '@/components/Control/Update_temp/Update_temp.vue';
 import RebootRaspbot from '@/components/Control/Reboot/Reboot.vue';
 import ShutdownRaspbot from '@/components/Control/Shutdown/Shutdown.vue';
 import Devices from '@/components/Advanced/Devices/Devices.vue';
@@ -169,6 +170,15 @@ export default new Router({
       path: '/control/update',
       name: 'Update',
       component: UpdateRaspbot,
+      meta: {
+        tab: 3,
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/control/temp',
+      name: 'UpdateTemp',
+      component: UpdateTemp,
       meta: {
         tab: 3,
         requiresAuth: true
