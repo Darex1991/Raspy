@@ -14,7 +14,7 @@
         <div class="button red" v-on:click="_reverTemp">Anuluj</div>
         <div class="button" v-on:click="_updateTemp">Zapisz</div>
       </div>
-      <div>{{this.contentMessage}}</div>
+      <div class="update__info">{{this.contentMessage}}</div>
     </div>
   </div>
 </template>

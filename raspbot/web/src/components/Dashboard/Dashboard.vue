@@ -47,7 +47,7 @@
 
         <div class="table-view">
           <div class="table-row-view">
-            <div class="table-cell-view">CPU usage:</div>
+            <div class="table-cell-view">CPU:</div>
             <div class="table-cell-view right">
               <Loading v-bind:condition="this.$root.temperatureLoading" height="8px" width="2px">{{this.$root.cpu}} %</Loading>
             </div>
@@ -66,7 +66,7 @@
             </div>
           </div>
           <div class="table-row-view">
-            <div class="table-cell-view">RAM available: </div>
+            <div class="table-cell-view">RAM: </div>
             <div class="table-cell-view right">
               <Loading v-bind:condition="this.$root.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.$root.ram.available)}}</Loading>
             </div>
@@ -84,7 +84,7 @@
             </div>
           </div>
           <div class="table-row-view">
-            <div class="table-cell-view">HDD free:</div>
+            <div class="table-cell-view">HDD:</div>
             <div class="table-cell-view right">
               <Loading v-bind:condition="this.$root.temperatureLoading" height="8px" width="2px">{{this.convertSize(this.$root.disk.free)}}</Loading>
             </div>

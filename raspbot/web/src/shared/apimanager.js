@@ -204,7 +204,6 @@ export default {
        * @param  {Function} callback The callback to invoke on response.
        */
       updateMinTempInformation: function(temp, callback) {
-        console.log(temp, '--1')
         this.HTTP.post('dashboard/update_min_temp', { temp: temp }).then(response => {
           if (typeof callback === 'function') callback(response.data);
         }).catch(error => {

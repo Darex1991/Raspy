@@ -4,7 +4,7 @@ export const data = function() {
   return {
     component: 'ConfirmPage',
     contentMessage: '',
-    heading: 'tets',
+    heading: '',
     timeoutId: undefined,
     value: {
       type: Number,
@@ -44,12 +44,11 @@ export const methods = {
     return this.value !== this.$root.minTemperatureForOpeningWindow;
   },
   _updateTemp: function() {
-    this.contentMessage = 'Updating';
+    this.contentMessage = 'Aktualizowanie..';
 
     this.$APIManager.updateMinTempInformation(this.value, response => {
       if (response.success) {
         this.contentMessage = "Zaktualizowana temperatura";
-        console.log(response);
         this.$root.minTemperatureForOpeningWindow = response.result;
         this.$root._router.push('/dashboard');
       } else {

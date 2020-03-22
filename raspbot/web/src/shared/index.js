@@ -116,7 +116,13 @@ export default {
       		minutes: 60,
       		seconds: 1
       	};
-
+        const translations = {
+          years: 'lat',
+          days: 'dni',
+          hours: 'godzin',
+          minutes: 'minut',
+          seconds: 'seconds',
+        }
       	let result = [];
 
       	for (let unit in units) {
@@ -125,7 +131,7 @@ export default {
               continue;
             }
 
-            const str = Math.floor(seconds / units[unit]) + " " + unit;
+            const str = Math.floor(seconds / units[unit]) + " " + translations[unit];
             result.push(str);
             seconds = seconds % units[unit];
       		}
